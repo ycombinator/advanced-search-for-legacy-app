@@ -1,31 +1,5 @@
 const connection = require('./mysql_connection');
 
-var restructurePosts = function(posts) {
-  var restructuredPosts = [];
-  posts.forEach(function(post) {
-    if (!restructuredPosts.hasOwnProperty(post.post_id)) {
-      post.author = {
-        first_name: post.first_name,
-        last_name: post.last_name,
-        email: post.email,
-        organization: post.organization
-      };
-      post.tags = [];
-      delete post.id;
-      delete post.author_id;
-      delete post.first_name;
-      delete post.last_name;
-      delete post.email;
-      delete post.organization;
-      restructuredPosts.push(post);
-    }
-    post.tags.push(post.tag);
-    delete post.tag;
-    delete post.post_id;
-  });
-  return restructuredPosts;
-};
-
 var getPostsFromDb = function(cb) {
   var query = "\
     SELECT      p.*, p.id AS post_id, a.* \
