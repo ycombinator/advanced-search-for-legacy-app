@@ -15,10 +15,10 @@
     <div class="row">
       <h1>Latest Posts</h1>
     </div>
-    
+
     <div class="row" ng-repeat="post in posts">
       <h2><a href="#">{{post.title}}</a></h2>
-      <p class="byline">{{post.author.first_name}} {{post.author.last_name}} on {{post.publish_date | date}}</p>
+      <p class="byline">{{post.first_name}} {{post.last_name}} on {{post.publish_date | date}}</p>
       <p>{{post.abstract}}</p>
       <p class="tags"><span ng-repeat="tag in post.tags" class="tag bg-primary">{{ tag }}</span></p>
     </div>
