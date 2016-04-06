@@ -2,7 +2,7 @@ const connection = require('./mysql_connection');
 
 var getPostsFromDb = function(cb) {
   var query = "\
-    SELECT      p.*, p.id AS post_id, a.* \
+    SELECT      p.*, a.first_name, a.last_name \
     FROM        posts AS p \
     INNER JOIN  authors AS a ON p.author_id = a.id \
     ORDER BY    p.publish_date DESC";
