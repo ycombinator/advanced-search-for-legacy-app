@@ -1,25 +1,45 @@
 # Advanced Search for your Legacy Application - Phase 0
 
-This is the initial "legacy" phase of the blog application.
+This is the initial "legacy" phase of the blog application. The application
+has three tiers: a single page application that runs in the user's browser,
+an API server, and a MySQL database server. Each of these tiers is detailed below.
 
-In this phase, the node.js application serves a single page that lets
-users search for blog posts. The application will auto-complete search
-terms as users type them out in the search box. When the search terms are
-entered, the application shows the results along with some facets for
-navigation.
+## Single page application
 
-Each of the three capablities - auto-complete, search, and faceted
-navitation - are implemented as a HTTP API endpoint. The single page in
-the browser calls these APIs.
+The single page application runs in users' browsers and lets them list the latest blog posts and add new blog posts.
 
-Additionally there are two more HTTP APIs — to create/update a blog post
-and to delete a blog post. These may be used by an admin UI, which is not
-implemented in this demo.
+This tier is implemented using Angular JS, HTML and CSS.
 
-The server-side code implementing the APIs talks to a MySQL database
-server (on localhost).
+## HTTP API server
 
-There is a database named `blog`, which contains two tables, 
-`authors` and `posts`. An author can have 0 or more posts. A post must
-have exactly one author. More details on this schema can be found in 
-[schema.sql](schema.sql).
+There are two HTTP APIs — to list the latest blog posts and to create a new blog post. These are called by the single page application.
+
+This tier is implemented using Node.js with Hapi.js.
+
+To serve the single page application and start the HTTP API server, run:
+
+    npm start
+
+The code implementing the APIs talks to a MySQL database server (on localhost).
+
+## MySQL database server
+
+It is assumed that an instance of the MySQL database server is running on `localhost`.
+
+In this instance, there is a database named `blog`, which contains four tables:
+ - `authors`: authors of blog posts
+ - `posts`: blog posts
+ - `tags`: tags for blog posts
+ - `posts_tags`: many-to-many relationship between `posts` and `tags`
+
+An author can have 0 or more posts. A post must have exactly one author.
+
+A post can have 0 or more tags. A tag may belong to 0 or more blog posts.
+
+More details on this schema can be found in [data/schema.sql](data/schema.sql). To create the `blog` database and the tables in it, run:
+
+    mysql -u root < data/schema.sql
+
+## Next Step
+
+The next step is Phase 1. In this phase we will add a search box to the index page and add a corresponding search results page. The search results page will simply list out the blog posts that match the search query entered in the search box on the index page.
