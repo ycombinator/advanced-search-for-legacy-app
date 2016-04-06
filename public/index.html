@@ -5,26 +5,11 @@
   <link rel="stylesheet" href="css/bootstrap.min.css" />
   <link rel="stylesheet" href="css/style.css" />
   <script language="javascript" src="js/angular.min.js"></script>
+  <script language="javascript" src="js/angular-route.min.js"></script>
+  <script language="javascript" src="js/app.js"></script>
   <script language="javascript" src="js/controllers.js"></script>
 </head>
 <body ng-app="blogApp">
-
-<section ng-controller="IndexController">
-
-  <div class="container">
-    <div class="row">
-      <h1>Latest Posts</h1>
-    </div>
-
-    <div class="row" ng-repeat="post in posts">
-      <h2><a href="#">{{post.title}}</a></h2>
-      <p class="byline">{{post.first_name}} {{post.last_name}} on {{post.publish_date | date}}</p>
-      <p>{{post.abstract}}</p>
-      <p class="tags"><span ng-repeat="tag in post.tags" class="tag bg-primary">{{ tag }}</span></p>
-    </div>
-  </div>
-
-</section>
-
+  <div ng-view></div>
 </body>
 </html>

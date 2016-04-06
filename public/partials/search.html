@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Blog Posts</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/style.css" />
+  <script language="javascript" src="js/angular.min.js"></script>
+  <script language="javascript" src="js/controllers.js"></script>
+</head>
+<body ng-app="blogApp">
+
+<section ng-controller="SearchController">
+
+  <div class="container">
+
+    <!-- Search input bar -->
+    <div class="row">
+      <form ng-submit="doSearch($event)">
+        <div class="form-group col-md-10">
+          <input name="q" ng-model="q" type="text" class="form-control" autofocus="true" />
+        </div>
+        <button name="submit" type="submit" class="btn btn-default">Search</button>
+      </form>
+    </div>
+
+    <div class="row">
+
+      <!-- Faceted navigation -->
+      <div class="col-md-2">
+        <ul id="facets">
+          <li ng-repeat="(facet, list) in facets">
+            <strong>{{ facet }}</strong>
+            <ol>
+              <li ng-repeat="item in list">
+                {{ item.value }} ({{item.count }})
+              </li>
+            </ol>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Search results -->
+      <div class="col-md-8">
+        <ul id="results">
+          <li ng-repeat="result in results">
+            <span><a href="">{{ result.title }}</a></span>
+            <p><em>{{ result.abstract }}</em></p>
+          </li>
+        </ul>
+      </div>
+
+  </div>
+
+</section>
+
+</body>
+</html>
