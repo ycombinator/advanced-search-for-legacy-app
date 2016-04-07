@@ -1,39 +1,31 @@
-CREATE DATABASE IF NOT EXISTS blog;
+CREATE DATABASE IF NOT EXISTS address_book;
 
-USE blog;
+USE address_book;
 
-CREATE TABLE IF NOT EXISTS authors (
+CREATE TABLE IF NOT EXISTS address (
+    id          INTEGER        NOT NULL    AUTO_INCREMENT,
+    line_1      VARCHAR(255)   NOT NULL,
+    line_2      VARCHAR(255),
+    city        VARCHAR(255),
+    postal_code VARCHAR(16),
+    state       VARCHAR(64),
+    country     VARCHAR(64),
+    created_on    DATETIME       NOT NULL,
+    updated_on    DATETIME       NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS contact (
     id            INTEGER        NOT NULL    AUTO_INCREMENT,
-    email         VARCHAR(255)   NOT NULL,
     first_name    VARCHAR(255)   NOT NULL,
     last_name     VARCHAR(255)   NOT NULL,
     organization  VARCHAR(255),
+    phone_number  VARCHAR(32)    NOT NULL,
+    email         VARCHAR(255),
+    address_id    INTEGER        NOT NULL,
+    created_on    DATETIME       NOT NULL,
+    updated_on    DATETIME       NOT NULL,
     PRIMARY KEY (id),
-    UNIQUE KEY (email)
-);
-
-CREATE TABLE IF NOT EXISTS posts (
-    id            INTEGER        NOT NULL    AUTO_INCREMENT,
-    author_id     INTEGER        NOT NULL,
-    title         VARCHAR(255)   NOT NULL,
-    abstract      MEDIUMTEXT,
-    body          TEXT           NOT NULL,
-    publish_date  DATETIME       NOT NULL,
-    PRIMARY KEY (id),
-    FOREIGN KEY (author_id) REFERENCES authors(id),
-    FULLTEXT (title, abstract, body)
-);
-
-CREATE TABLE IF NOT EXISTS tags (
-    id            INTEGER       NOT NULL    AUTO_INCREMENT,
-    tag           VARCHAR(255)  NOT NULL,
-    PRIMARY KEY (id),
-    UNIQUE KEY (tag)
-);
-
-CREATE TABLE IF NOT EXISTS posts_tags (
-    post_id       INTEGER       NOT NULL,
-    tag_id        INTEGER       NOT NULL,
-    FOREIGN KEY (post_id) REFERENCES posts(id),
-    FOREIGN KEY (tag_id) REFERENCES tags(id)
+    UNIQUE KEY (email),
+    FOREIGN KEY (address_id) REFERENCES address(id)
 );
