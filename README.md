@@ -1,45 +1,56 @@
-# Advanced Search for your Legacy Application - Phase 0
+# Advanced Search for your Legacy Application
+## Phase 0: Legacy Application
 
-This is the initial "legacy" phase of the blog application. The application
-has three tiers: a single page application that runs in the user's browser,
-an API server, and a MySQL database server. Each of these tiers is detailed below.
+This is the initial "legacy" phase of the **address book** application. The
+application has three tiers: a single page application that runs in the
+user's browser, an API server, and a MySQL database server. Each of these
+tiers is detailed below.
 
-## Single page application
+### Single page application
 
-The single page application runs in users' browsers and lets them list the latest blog posts and add new blog posts.
+The single page application runs in users' browsers. It allows users to:
+- list the contacts in the address book
+- create a new contact
+- update a contact
+- delete a contact
 
 This tier is implemented using Angular JS, HTML and CSS.
 
-## HTTP API server
+### HTTP API server
 
-There are two HTTP APIs — to list the latest blog posts and to create a new blog post. These are called by the single page application.
+The single page application calls the following HTTP APIs:
+- list contacts: `GET /api/contacts`
+- create a new contact: `POST /api/contacts`
+- retrieve a contact: `GET /api/contacts/{contact_id}`
+- update a contact: `PUT /api/contacts/{contact_id}`
+- delete a contact: `DELETE /api/contacts/{contact_id}`
 
-This tier is implemented using Node.js with Hapi.js.
+This tier is implemented using Node.js with Hapi.js. The code implementing the APIs talks to a MySQL database server (on localhost).
 
 To serve the single page application and start the HTTP API server, run:
 
     npm start
 
-The code implementing the APIs talks to a MySQL database server (on localhost).
-
-## MySQL database server
+### MySQL database server
 
 It is assumed that an instance of the MySQL database server is running on `localhost`.
 
-In this instance, there is a database named `blog`, which contains four tables:
- - `authors`: authors of blog posts
- - `posts`: blog posts
- - `tags`: tags for blog posts
- - `posts_tags`: many-to-many relationship between `posts` and `tags`
+In this instance, there is a database named `address_book`, which contains four tables:
+ - `contact`: contacts
+ - `address`: addresses of contacts
 
-An author can have 0 or more posts. A post must have exactly one author.
+A contact must have exactly one address. An address can be shared between multiple contacts. The DDL for the schema can be found in [data/schema.sql](data/schema.sql).
 
-A post can have 0 or more tags. A tag may belong to 0 or more blog posts.
-
-More details on this schema can be found in [data/schema.sql](data/schema.sql). To create the `blog` database and the tables in it, run:
+To create the `address_book` database and the tables in it, run:
 
     mysql -u root < data/schema.sql
 
+To seed the tables with some inital data, run:
+
+    ./data/init.sh
+
+(This will prompt you for the [database password](api/mysql_connection.js#L6)).
+
 ## Next Step
 
-The next step is Phase 1. In this phase we will add a search box to the index page and add a corresponding search results page. The search results page will simply list out the blog posts that match the search query entered in the search box on the index page.
+The next step is [Phase 1](tree/phase-1-es). In this phase we will install Elasticsearch and run it.
