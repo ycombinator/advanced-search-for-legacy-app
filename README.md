@@ -53,4 +53,4 @@ To seed the tables with some inital data, run:
 
 ## Next Step
 
-The next step is [Phase 1](/tree/phase-1-es). In this phase we will install Elasticsearch and run it.
+The next step is [Phase 1](../../tree/phase-1-es). In this phase we will install Elasticsearch and run it.
