@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="row">
+    <h1>Update contact</h1>
+  </div>
+
+  <form ng-submit="updateContact($event)">
+    <h3>Basic Info</h3>
+    <div class="row">
+      <div class="form-group col-md-4">
+        <label for="first_name">First name</label>
+        <input id="first_name" ng-model="contact.first_name" type="text" class="form-control" required="true" autofocus="true" />
+      </div>
+      <div class="form-group col-md-4">
+        <label for="last_name">Last name</label>
+        <input id="last_name" ng-model="contact.last_name" type="text" class="form-control" required="true" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-2">
+        <label for="phone_number">Phone number</label>
+        <input id="phone_number" ng-model="contact.phone_number" type="text" class="form-control" required="true" />
+      </div>
+      <div class="form-group col-md-4">
+        <label for="email">Email address</label>
+        <input id="email" ng-model="contact.email" type="email" class="form-control" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-2">
+        <label for="organization">Organization</label>
+        <input id="organization" ng-model="contact.organization" type="text" class="form-control" />
+      </div>
+    </div>
+    <h3>Address</h3>
+    <div class="row">
+      <div class="form-group col-md-8">
+        <label for="line_1">Line 1</label>
+        <input id="line_1" ng-model="contact.line_1" type="text" class="form-control" required="true" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-8">
+        <label for="line_1">Line 2</label>
+        <input id="line_2" ng-model="contact.line_2" type="text" class="form-control" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label for="city">City</label>
+        <input id="city" ng-model="contact.city" type="text" class="form-control" required="true" />
+      </div>
+      <div class="form-group col-md-2">
+        <label for="postal_code">Postal code</label>
+        <input id="postal_code" ng-model="contact.postal_code" type="text" class="form-control" required="true" />
+      </div>
+      <div class="form-group col-md-2">
+        <label for="state">State / Province</label>
+        <input id="state" ng-model="contact.state" type="text" class="form-control" required="true" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="form-group col-md-3">
+        <label for="country">Country</label>
+        <input id="country" ng-model="contact.country" type="text" class="form-control" required="true" />
+      </div>
+    </div>
+    <button name="update" type="submit" class="btn btn-default">Update</button>
+  </form>
+</div>

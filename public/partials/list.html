@@ -1,0 +1,31 @@
+<div class="container">
+  <div class="row">
+    <h1 ng-mouseover="showPageControls=true" ng-mouseout="showPageControls=false">
+      Address Book
+      <span class="controls" ng-show="showPageControls">
+        <a href="#/contacts/create"><span class="glyphicon glyphicon-plus"></span></a>
+      </span>
+    </h1>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row" ng-repeat="contact in contacts" ng-mouseover="contact.showControls=true" ng-mouseout="contact.showControls=false">
+    <h3>
+      {{contact.last_name}}, {{contact.first_name}}
+      <span class="organization" ng-if="contact.organization">{{ contact.organization }}</span>
+      <span class="controls" ng-show="contact.showControls">
+        <a href="#/contacts/{{contact.id}}/update"><span class="glyphicon glyphicon-pencil"></span></a>
+        <a href="" ng-click="deleteContact(contact)"><span class="glyphicon glyphicon-trash"></span></a>
+      </span>
+    </h3>
+    <div class="address">
+      <div>{{contact.line_1}}</div>
+      <div>{{contact.line_2}}</div>
+      <div>{{contact.city}}, {{contact.state}} {{contact.postal_code}}</div>
+      <div>{{contact.country}}</div>
+    </div>
+    <div><span class="glyphicon glyphicon-phone"></span> {{contact.phone_number}}</div>
+    <div ng-if="contact.email"><span class="glyphicon glyphicon-envelope"></span> {{contact.email}}</div>
+  </div>
+</div>

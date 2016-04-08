@@ -1,49 +1,52 @@
-var blogControllers = angular.module('blogControllers', []);
+var addressBookControllers = angular.module('addressBookControllers', []);
 
-blogControllers.controller('HomeController', [ '$scope', '$route', '$http', function($scope, $route, $http) {
+addressBookControllers.controller('ListContactsController',
+  [ '$scope', '$route', '$http', function($scope, $route, $http) {
 
-  $scope.togglePageControls = function() {
-    $scope.showPageControls = ! $scope.showPageControls;
-  }
+  // Get contacts
+  $http.get('/api/contacts')
+  .success(function(data) {
+    $scope.contacts = data.contacts;
+  });
 
-  $scope.togglePostControls = function(post) {
-    post.showControls = ! post.showControls;
-  };
-
-  $scope.deletePost = function(post) {
-    $http.delete('/api/posts/' + post.id)
+  $scope.deleteContact = function(contact) {
+    $http.delete('/api/contacts/' + contact.id)
     .success(function() {
       $route.reload();
     })
   };
 
-  // Get latest posts
-  $http.get('/api/posts')
-  .success(function(data) {
-    $scope.posts = data.posts;
-  });
 }]);
 
-blogControllers.controller('EditPostController', [ '$scope', '$routeParams', '$http', function($scope, $routeParams, $http) {
+addressBookControllers.controller('CreateContactController',
+  [ '$scope', '$http', '$location', function($scope, $http, $location) {
 
-  // Get authors
-  $http.get('/api/authors')
-  .success(function(data) {
-    $scope.authors = data.authors;
-  });
-
-  $scope.addPost = function($event) {
-    var post = {
-      author_id: $scope.author_id,
-      title: $scope.post_title,
-      abstract: $scope.post_abstract,
-      body: $scope.post_body
-    };
-
-    $http.post('/api/posts', post)
-    .success(function(data) {
-      console.log(data);
+  $scope.createContact = function($event) {
+    $http.post('/api/contacts', $scope.contact)
+    .success(function(data, statusCode) {
+      if (statusCode === 201) {
+        $location.path('/');
+      }
     });
   };
 
+}]);
+
+addressBookControllers.controller('UpdateContactController',
+  [ '$scope', '$routeParams', '$http', '$location', function($scope, $routeParams, $http, $location) {
+
+  // Get contact
+  $http.get('/api/contacts/' + $routeParams.contact_id)
+  .success(function(data) {
+    $scope.contact = data;
+  });
+
+  $scope.updateContact = function($event) {
+    $http.put('/api/contacts/' + $routeParams.contact_id, $scope.contact)
+    .success(function(data, statusCode) {
+      if (statusCode === 204) {
+        $location.path('/');
+      }
+    });
+  };
 }]);

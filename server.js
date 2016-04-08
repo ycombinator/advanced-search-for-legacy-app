@@ -1,8 +1,4 @@
 const Hapi = require('hapi');
-const listPostsApi = require('./api/list_posts');
-const listAuthorsApi = require('./api/list_authors');
-const createPostApi = require('./api/create_post');
-const deletePostApi = require('./api/delete_post');
 
 const server = new Hapi.Server();
 server.connection({
@@ -10,10 +6,11 @@ server.connection({
 });
 
 // Serve APIs
-server.route({ method: 'GET', path: '/api/posts', handler: listPostsApi });
-server.route({ method: 'GET', path: '/api/authors', handler: listAuthorsApi });
-server.route({ method: 'POST', path: '/api/posts', handler: createPostApi });
-server.route({ method: 'DELETE', path: '/api/posts/{post_id}', handler: deletePostApi });
+server.route({ method: 'GET', path: '/api/contacts', handler: require('./api/list_contacts') });
+server.route({ method: 'POST', path: '/api/contacts', handler: require('./api/create_contact') });
+server.route({ method: 'GET', path: '/api/contacts/{contact_id}', handler: require('./api/read_contact') });
+server.route({ method: 'PUT', path: '/api/contacts/{contact_id}', handler: require('./api/update_contact') });
+server.route({ method: 'DELETE', path: '/api/contacts/{contact_id}', handler: require('./api/delete_contact') });
 
 // Serve static files
 server.register(require('inert'), function(err) {

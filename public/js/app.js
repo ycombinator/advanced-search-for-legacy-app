@@ -1,20 +1,20 @@
-var blogApp = angular.module('blogApp', [
+var addressBookApp = angular.module('addressBookApp', [
   'ngRoute',
-  'blogControllers'
+  'addressBookControllers'
 ]);
 
-blogApp.config([ '$routeProvider', function($routeProvider) {
+addressBookApp.config([ '$routeProvider', function($routeProvider) {
   $routeProvider
   .when('/', {
-    templateUrl: 'partials/home.html',
-    controller:  'HomeController'
+    templateUrl: 'partials/list.html',
+    controller:  'ListContactsController'
   })
-  .when('/posts/new', {
-    templateUrl: 'partials/edit.html',
-    controller: 'EditPostController'
+  .when('/contacts/create', {
+    templateUrl: 'partials/create.html',
+    controller: 'CreateContactController'
   })
-  .when('/posts/:postId/edit', {
-    templateUrl: 'partials/edit.html',
-    controller: 'EditPostController'
+  .when('/contacts/:contact_id/update', {
+    templateUrl: 'partials/update.html',
+    controller: 'UpdateContactController'
   });
 }]);

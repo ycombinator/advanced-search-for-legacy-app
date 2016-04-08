@@ -2,32 +2,14 @@ body {
   margin-top: 2em;
 }
 
-ul#results li {
-  list-style: none;
-}
-
-ul#facets li {
-  list-style: none;
-  margin-left: -2em;
-}
-
-ul#facets ol {
-  margin-bottom: 1em;
-}
-
-p.byline {
+.address {
   text-transform: uppercase;
   font-size: 90%;
 }
 
-.tags {
-  margin-top: 1em;
-}
-
-.tag {
-  margin-right: 0.25em;
-  padding: 0.5em 1em 0.5em 1em;
-  border-radius: 0.5em;
+.organization {
+  font-size: 50%;
+  vertical-align: middle;
 }
 
 .controls {
