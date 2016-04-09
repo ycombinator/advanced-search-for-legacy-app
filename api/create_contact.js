@@ -1,5 +1,6 @@
 const async = require('async');
 const connection = require('./mysql_connection');
+const elasticsearch = require('./elasticsearch_connection');
 
 module.exports = function(request, reply) {
 
@@ -80,8 +81,33 @@ module.exports = function(request, reply) {
     .then(function(result) {
       next(null, result.insertId);
     });
+  };
 
-  }
+  const indexContactInElasticsearch = function(contactId, next) {
+    elasticsearch.index({
+      index: 'address_book',
+      type: 'contact',
+      id: contactId,
+      body: {
+        first_name: request.payload.first_name,
+        last_name: request.payload.last_name,
+        organization: request.payload.organization,
+        phone_number: request.payload.phone_number,
+        email: request.payload.email,
+        address: {
+          line_1: request.payload.line_1,
+          line_2: request.payload.line_2,
+          city: request.payload.city,
+          postal_code: request.payload.postal_code,
+          state: request.payload.state,
+          country: request.payload.country
+        }
+      }
+    })
+    .then(function(body) {
+      next(null, contactId);
+    });
+  };
 
   const sendReply = function(err, contactId) {
     reply({
@@ -93,7 +119,8 @@ module.exports = function(request, reply) {
   async.waterfall([
     normalizeInput,
     insertOrSelectAddressFromDb,
-    insertContactInDb
+    insertContactInDb,
+    indexContactInElasticsearch
   ], sendReply);
 
 };
