@@ -25,7 +25,7 @@ module.exports = function(request, reply) {
       ';
     connection.query(query, [
       request.payload.line_1.toLowerCase(),
-      (typeof request.payload.line_2 !== 'undefined' ? request.payload.line_2.toLowerCase() : ''),
+      (request.payload.line_2 ? request.payload.line_2.toLowerCase() : ''),
       request.payload.city.toLowerCase(),
       request.payload.postal_code.toLowerCase(),
       request.payload.state.toLowerCase(),
@@ -75,20 +75,20 @@ module.exports = function(request, reply) {
     connection.query(query, [
       request.payload.first_name,
       request.payload.last_name,
-      request.payload.organization,
+      request.payload.organization || null,
       request.payload.phone_number,
-      request.payload.email,
+      request.payload.email || null,
       addressId,
       now,
       request.params.contact_id
     ])
     .then(function(result) {
-      next(null, result.insertId);
+      next();
     });
 
   }
 
-  const sendReply = function(err, contactId) {
+  const sendReply = function(err) {
     reply()
     .code(204);
   };

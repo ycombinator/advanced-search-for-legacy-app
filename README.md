@@ -1,62 +1,22 @@
 # Advanced Search for your Legacy Application
-## Step 0: Legacy Application
+## Step 1: Install and run Elasticsearch
 
-This is the initial "legacy" version of the **address book** application.
-The application has three tiers: a single page application that runs in the
-user's browser, an API server, and a MySQL database server. Each of these
-tiers is detailed below.
+In this step you will run a single-node Elasticsearch cluster.
 
-### Single page application
+First, download the latest version of Elasticsearch from https://www.elastic.co/downloads/elasticsearch. For portability across
+different operating systems, we will assume you are downloading the zip file.
 
-The single page application runs in users' browsers. It allows users to:
-- list the contacts in the address book
-- create a new contact
-- update a contact
-- delete a contact
+Next, unzip the downloaded file. You can do this wherever you think is
+appropriate for your system; we will refer to this path from this point onwards as `$ES_HOME`.
 
-This tier is implemented using Angular JS, HTML and CSS.
+Finally, start Elasticsearch!
 
-### HTTP API server
+    $ $ES_HOME/bin/elasticsearch
 
-The single page application calls the following HTTP APIs:
-- list contacts: `GET /api/contacts`
-- create a new contact: `POST /api/contacts`
-- retrieve a contact: `GET /api/contacts/{contact_id}`
-- update a contact: `PUT /api/contacts/{contact_id}`
-- delete a contact: `DELETE /api/contacts/{contact_id}`
+This will start a single node of Elasticsearch. At this point you have a 1-node Elasticsearch cluster running!
 
-This tier is implemented using Node.js with Hapi.js. The code implementing the
-APIs talks to a MySQL database server (on localhost).
-
-To serve the single page application and start the HTTP API server, run:
-
-    npm start
-
-### MySQL database server
-
-It is assumed that an instance of the MySQL database server is running on
-`localhost`.
-
-In this instance, there is a database named `address_book`, which contains four
-tables:
- - `contact`: contacts
- - `address`: addresses of contacts
-
-A contact must have exactly one address. An address can be shared between
-multiple contacts. The DDL for the schema can be found in
-[data/schema.sql](data/schema.sql).
-
-To create the `address_book` database and the tables in it, run:
-
-    mysql -u root < data/schema.sql
-
-To seed the tables with some inital data, run:
-
-    ./data/init.sh
-
-(This will prompt you for the [database password](api/mysql_connection.js#L6)).
+Elasticsearch exposes a REST API, by default on [`http://localhost:9200`](http://localhost:9200). Your application will communicate with Elasticsearch via this REST API.
 
 ## Next Step
 
-The next step is [Step 1](../../tree/step-1-es). In this step we will install
-Elasticsearch and run it.
+The next step is [Step 2](../../tree/step-2-fork-writes). In this step we will augment our application's API code to send writes (inserts, updates, deletes) to Elasticsearch in addition to sending them to MySQL.
