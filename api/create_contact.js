@@ -3,6 +3,7 @@ const connection = require('./mysql_connection');
 
 module.exports = function(request, reply) {
 
+  const now = new Date();
   const normalizeInput = function(next) {
     Object.keys(request.payload).map(function(key) {
       if (typeof request.payload[key] === 'string') {
@@ -35,7 +36,6 @@ module.exports = function(request, reply) {
       if (rows.length === 1) {
         next(null, rows[0].id);
       } else {
-        const now = new Date();
         const query = ' \
           INSERT INTO address ( \
             line_1, line_2, city, postal_code, state, country, created_on, updated_on \
@@ -60,7 +60,6 @@ module.exports = function(request, reply) {
   };
 
   const insertContactInDb = function(addressId, next) {
-    const now = new Date();
     const query = ' \
       INSERT INTO contact ( \
         first_name, last_name, organization, phone_number, email, address_id, created_on, updated_on \
