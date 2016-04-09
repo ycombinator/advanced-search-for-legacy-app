@@ -81,7 +81,7 @@ module.exports = function(request, reply) {
       next(null, result.insertId);
     });
 
-  }
+  };
 
   const sendReply = function(err, contactId) {
     reply({
