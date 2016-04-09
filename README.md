@@ -46,4 +46,4 @@ Next, lets consider deletes on non-existent contacts in Elasticsearch. This will
 
 ## Next Step
 
-The next step is [Step 3](../../tree/step-2-fork-writes). In this step we will augment our application's API code to send writes (inserts, updates, deletes) to Elasticsearch in addition to sending them to MySQL.
+The next step is [Step 3](../../tree/step-3-backfill). In this step we will backfill older data from MySQL into Elasticsearch.
