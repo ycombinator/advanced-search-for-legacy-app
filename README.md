@@ -1,49 +1,29 @@
 # Advanced Search for your Legacy Application
-## Step 2: Fork writes to MySQL and Elasticsearch
+## Step 3: Backfill older data
 
-In this step you will change the application code to send writes to both MySQL and Elasticsearch. This will ensure that all new writes in the application are propagated to Elasticsearch (in addition to MySQL).
+Once the changes in step 2 took effect, all _new_ contacts were being
+inserted into MySQL and indexed into Elasticsearch. However, there are
+contacts in MySQL that were created before the changes in step 2 took
+effect. In this step you will backfill those contacts from MySQL into
+Elasticsearch.
 
-## Communicating with Elasticsearch
-First, your application will need a way to communicate with Elasticsearch.
+## Logstash
+Rather than write code to `SELECT` older contacts from MySQL and index
+them into Elasticsearch, we will use a tool called Logstash to perform this one-time backfill work.
 
-As you saw at the end of Step 1, a running Elasticsearch node exposes a
-REST API, by default at [`http://localhost:9200`](http://localhost:9200).
-So you _could_ use a generic HTTP client for your application's programming language to make calls to Elasticsearch's REST API and communicate with Elasticsearch. It is recommended, however, that you use the Elasticsearch client for your application's language instead.
+### Install and run Logstash
+First, download the latest version of Logstash from  https://www.elastic.co/downloads/logstash. For portability across
+different operating systems, we will assume you are downloading the zip file.
 
-Our sample address book application is written in Javascript (Node.js). So we will be using the elasticsearch Javascript client for Node.js. To install it, run:
+Next, unzip the downloaded file. You can do this wherever you think is
+appropriate for your system; we will refer to this path from this point onwards as `$LS_HOME`.
 
-    $ npm install --save elasticsearch
+Before running Logstash, we need to create a config file for it. This config file is where we tell Logstash how to get older contacts from MySQL and index them into Elasticsearch. We will use [backfill.conf](backfill.conf) as our Logstash config file.
 
-## Sending writes to Elasticsearch
-There are three APIs in the application that perform writes:
-- create a new contact: `POST /api/contacts`
-- update a contact: `PUT /api/contacts/{contact_id}`
-- delete a contact: `DELETE /api/contacts/{contact_id}`
+Finally, run Logstash, specifying the config file:
 
-### Changes to `POST /api/contacts` code
-The `POST /api/contacts` code creates a new contact by `INSERT`ing a row in the `contact` table and, if required, a row in the `address` table in MySQL.
-
-In this step, we augment this code so the new contact is _also_ indexed in Elasticsearch.
-
-### Changes to `PUT /api/contacts/{contact_id}` code
-The `PUT /api/contacts/{contact_id}` code updates a contact by `UPDATE`ing its row in the `contact` table and, if required, `INSERT`ing a row in the `address` table in MySQL.
-
-In this step, we augment this code so the contact is _also_ updated in Elasticsearch.
-
-### Changes to `DELETE /api/contacts/{contact_id}` code
-The `DELETE /api/contacts/{contact_id}` code updates a contact by `DELETE`ing its row in the `contact` table in MySQL.
-
-In this step, we augment this code so the contact is _also_ deleted from Elasticsearch.
-
-#### One Caveat
-Notice that we are not only forking inserts but also updates and deletes. This works well for contacts that are inserted after the code changes in this step are put into effect.
-
-However, for contacts that were inserted before these code changes are put into effect, updates and deletes in Elasticsearch could be problematic because the contact being updated or deleted will not exist in Elasticsearch!
-
-First, lets consider updates on non-existent contacts in Elasticsearch. This is not going to cause an error because Elasticsearch will simply treat this as an insert.
-
-Next, lets consider deletes on non-existent contacts in Elasticsearch. This will result in a HTTP 404 response from Elasticsearch. To get around this issue, we must add transient code to ignore this 404. We will remove this transient code in step 6.
+    $ $LS_HOME/bin/logstash --allow-env --config backfill.conf
 
 ## Next Step
 
-The next step is [Step 3](../../tree/step-3-backfill). In this step we will backfill older data from MySQL into Elasticsearch.
+The next step is [Step 4](../../tree/step-4-search). In this step we will add search (UI and API) to your application.
