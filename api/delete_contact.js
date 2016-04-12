@@ -19,7 +19,8 @@ module.exports = function(request, reply) {
     elasticsearch.delete({
       index: 'address_book',
       type: 'contact',
-      id: request.params.contact_id
+      id: request.params.contact_id,
+      ignore: [ 404 ]
     })
     .then(next);
   };
