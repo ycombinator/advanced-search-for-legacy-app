@@ -1,12 +1,12 @@
 # Advanced Search for your Legacy Application
-## Step 4: Add search to your application
+## Step 5: Cleanup transient code
 
-At the end of step 3 the contacts in Elasticsearch are in sync with those in
-MySQL. Now we are ready to add search capability to your application. Specifically, we will:
-- Add a new API to your application to perform searches: `GET /api/contacts/search`
-- Add a text box on the home page where users can enter their search terms
-- Show search results on the home page
+In step 2 we added [a very small bit of code](/blob/step-2-fork-writes/api/delete_contact.js#L23)
+to ignore 404 errors when `DELETE`ing contacts from Elasticsearch. This code is only necessary
+until we have backfilled older data from MySQL into Elasticsearch, which we did in step 3.
+
+In this step we simply remove this bit of transient code.
 
 ## Next Step
 
-The next (and final!) step is [Step 5](../../tree/step-5-cleanup). In this step we will cleanup a very small bit of transient code we added in step 3.
+There is no next step! We have successfully added search to our application!
