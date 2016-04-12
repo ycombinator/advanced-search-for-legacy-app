@@ -1,29 +1,12 @@
 # Advanced Search for your Legacy Application
-## Step 3: Backfill older data
+## Step 4: Add search to your application
 
-Once the changes in step 2 took effect, all _new_ contacts were being
-inserted into MySQL and indexed into Elasticsearch. However, there are
-contacts in MySQL that were created before the changes in step 2 took
-effect. In this step you will backfill those contacts from MySQL into
-Elasticsearch.
-
-## Logstash
-Rather than write code to `SELECT` older contacts from MySQL and index
-them into Elasticsearch, we will use a tool called Logstash to perform this one-time backfill work.
-
-### Install and run Logstash
-First, download the latest version of Logstash from  https://www.elastic.co/downloads/logstash. For portability across
-different operating systems, we will assume you are downloading the zip file.
-
-Next, unzip the downloaded file. You can do this wherever you think is
-appropriate for your system; we will refer to this path from this point onwards as `$LS_HOME`.
-
-Before running Logstash, we need to create a config file for it. This config file is where we tell Logstash how to get older contacts from MySQL and index them into Elasticsearch. We will use [backfill.conf](backfill.conf) as our Logstash config file.
-
-Finally, run Logstash, specifying the config file:
-
-    $ $LS_HOME/bin/logstash --allow-env --config backfill.conf
+At the end of step 3 the contacts in Elasticsearch are in sync with those in
+MySQL. Now we are ready to add search capability to your application. Specifically, we will:
+- Add a new API to your application to perform searches: `GET /api/contacts/search`
+- Add a text box on the home page where users can enter their search terms
+- Show search results on the home page
 
 ## Next Step
 
-The next step is [Step 4](../../tree/step-4-search). In this step we will add search (UI and API) to your application.
+The next (and final!) step is [Step 5](../../tree/step-5-cleanup). In this step we will cleanup a very small bit of transient code we added in step 3.

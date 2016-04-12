@@ -11,6 +11,7 @@ server.route({ method: 'POST', path: '/api/contacts', handler: require('./api/cr
 server.route({ method: 'GET', path: '/api/contacts/{contact_id}', handler: require('./api/retrieve_contact') });
 server.route({ method: 'PUT', path: '/api/contacts/{contact_id}', handler: require('./api/update_contact') });
 server.route({ method: 'DELETE', path: '/api/contacts/{contact_id}', handler: require('./api/delete_contact') });
+server.route({ method: 'GET', path: '/api/search', handler: require('./api/search') });
 
 // Serve static files
 server.register(require('inert'), function(err) {

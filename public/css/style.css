@@ -16,3 +16,8 @@ body {
   opacity: 0.5;
   font-size: 0.5em;
 }
+
+.search {
+  float: right;
+  margin-right: 2em;
+}
